@@ -10,6 +10,7 @@
     <sub-menu
       v-for="item in menu.list" 
       :key="item.menuId"
+      v-show = "item.isTab" 
       :menu="item"
       :dynamicMenuRoutes="dynamicMenuRoutes">
     </sub-menu>

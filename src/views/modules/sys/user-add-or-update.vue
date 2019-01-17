@@ -19,6 +19,9 @@
       <el-form-item label="手机号" prop="mobile">
         <el-input v-model="dataForm.mobile" placeholder="手机号"></el-input>
       </el-form-item>
+      <el-form-item label="工号" prop="jobNumber">
+        <el-input v-model="dataForm.jobNumber" placeholder="工号"></el-input>
+      </el-form-item>
       <el-form-item label="角色" size="mini" prop="roleIdList">
         <el-checkbox-group v-model="dataForm.roleIdList">
           <el-checkbox v-for="role in roleList" :key="role.roleId" :label="role.roleId">{{ role.roleName }}</el-checkbox>
@@ -78,13 +81,17 @@
         dataForm: {
           id: 0,
           userName: '',
+          realName: '',
+          realName: '',
+          jobNumber: '',
           password: '',
           comfirmPassword: '',
           salt: '',
           email: '',
           mobile: '',
           roleIdList: [],
-          status: 1
+          status: 1,
+          projectMan: true,
         },
         dataRule: {
           userName: [
@@ -103,6 +110,9 @@
           mobile: [
             { required: true, message: '手机号不能为空', trigger: 'blur' },
             { validator: validateMobile, trigger: 'blur' }
+          ],
+          jobNumber: [
+            { required: true, message: '工号不能为空', trigger: 'blur' },
           ]
         }
       }
@@ -130,6 +140,9 @@
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.dataForm.userName = data.user.username
+                this.dataForm.realName = data.user.username
+                this.dataForm.jobNumber = data.user.jobNumber
+                this.dataForm.projectMan = data.user.projectMan 
                 this.dataForm.salt = data.user.salt
                 this.dataForm.email = data.user.email
                 this.dataForm.mobile = data.user.mobile
@@ -144,18 +157,22 @@
       dataFormSubmit () {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
+            this.dataForm.realName = this.dataForm.userName
             this.$http({
               url: this.$http.adornUrl(`/sys/user/${!this.dataForm.id ? 'save' : 'update'}`),
               method: 'post',
               data: this.$http.adornData({
                 'userId': this.dataForm.id || undefined,
                 'username': this.dataForm.userName,
+                'realName': this.dataForm.userName,
+                'jobNumber': this.dataForm.jobNumber,
                 'password': this.dataForm.password,
                 'salt': this.dataForm.salt,
                 'email': this.dataForm.email,
                 'mobile': this.dataForm.mobile,
                 'status': this.dataForm.status,
-                'roleIdList': this.dataForm.roleIdList
+                'roleIdList': this.dataForm.roleIdList,
+                'projectMan': this.dataForm.projectMan,
               })
             }).then(({data}) => {
               if (data && data.code === 0) {

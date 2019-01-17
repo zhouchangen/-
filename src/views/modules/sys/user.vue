@@ -1,8 +1,14 @@
 <template>
   <div class="mod-user">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
-      <el-form-item>
+      <el-form-item label="用户名">
         <el-input v-model="dataForm.userName" placeholder="用户名" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="工号">
+        <el-input v-model="dataForm.jobNumber" placeholder="工号" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="联系电话">
+        <el-input v-model="dataForm.mobile" placeholder="联系电话" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
@@ -46,6 +52,12 @@
         header-align="center"
         align="center"
         label="手机号">
+      </el-table-column>
+      <el-table-column
+        prop="jobNumber"
+        header-align="center"
+        align="center"
+        label="工号">
       </el-table-column>
       <el-table-column
         prop="status"
@@ -96,7 +108,9 @@
     data () {
       return {
         dataForm: {
-          userName: ''
+          userName: '',
+          jobNumber: '',
+          mobile: '',
         },
         dataList: [],
         pageIndex: 1,
@@ -123,7 +137,9 @@
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
-            'username': this.dataForm.userName
+            'username': this.dataForm.userName,
+            'jobNumber': this.dataForm.jobNumber,
+            'mobile': this.dataForm.mobile,
           })
         }).then(({data}) => {
           if (data && data.code === 0) {

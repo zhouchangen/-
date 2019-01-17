@@ -29,6 +29,7 @@
 <script>
   import ueditor from 'ueditor'
   export default {
+    name: "UEditor",
     data () {
       return {
         ue: null,
@@ -39,7 +40,7 @@
     },
     mounted () {
       this.ue = ueditor.getEditor(this.ueId, {
-        // serverUrl: '', // 服务器统一请求接口路径
+        serverUrl: 'http://172.18.8.137/dev/pm/project/files/save', // 服务器统一请求接口路径
         zIndex: 3000
       })
     },

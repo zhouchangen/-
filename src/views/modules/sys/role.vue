@@ -47,6 +47,9 @@
         align="center"
         width="180"
         label="创建时间">
+        <template slot-scope="scope">
+          <span>{{scope.row.createTime | datafmt('YYYY-MM-DD HH:mm:ss')}}</span>
+        </template>
       </el-table-column>
       <el-table-column
         fixed="right"
